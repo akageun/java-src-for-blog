@@ -1,0 +1,51 @@
+#https://gist.github.com/dkurzaj/2a899de8cb5ae698919f0a9bbf7685f0
+version: '3.1'
+
+services:
+    zookeeper:
+        container_name: zookeeper
+        image: wurstmeister/zookeeper:3.4.6
+        volumes:
+            - "./zookeeper/data:/data"
+            - "./zookeeper/logs:/datalog"
+        ports:
+            - "2181:2181"
+
+    kafka:
+        container_name: kafka
+        image: wurstmeister/kafka:2.12-2.3.0
+        restart: on-failure
+        depends_on:
+            - zookeeper
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+        environment:
+            KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+            JMX_PORT: 9093
+            KAFKA_ADVERTISED_HOST_NAME: ${EXPOSED_HOSTNAME}
+            KAFKA_ADVERTISED_PORT: 9092
+            # KAFKA_DELETE_TOPIC_ENABLE: "true"
+            #- KAFKA_LOG_RETENTION_HOURS=1
+            #- KAFKA_MESSAGE_MAX_BYTES=10000000
+            #- KAFKA_REPLICA_FETCH_MAX_BYTES=10000000
+            # KAFKA_GROUP_MAX_SESSION_TIMEOUT_MS: 60000
+            #- KAFKA_NUM_PARTITIONS=2
+            #- KAFKA_DELETE_RETENTION_MS=1000
+            KAFKA_JMX_OPTS: -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=${EXPOSED_HOSTNAME} -Dcom.sun.management.jmxremote.rmi.port=9093
+        ports:
+            - "9092:9092"
+
+    # https://github.com/hleb-albau/kafka-manager-docker
+    kafka-manager:
+        container_name: kafka-manager
+        image: hlebalbau/kafka-manager:2.0.0.2
+        restart: on-failure
+        depends_on:
+            - kafka
+            - zookeeper
+        environment:
+            ZK_HOSTS: zookeeper:2181
+            APPLICATION_SECRET: letmein
+            KM_ARGS: -Djava.net.preferIPv4Stack=true
+        ports:
+            - "9000:9000"
