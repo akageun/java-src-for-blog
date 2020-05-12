@@ -28,7 +28,7 @@ public class BasicKafkaProducer extends BaseBasicKafka {
 
                 ProducerRecord<String, String> producerRecord = new ProducerRecord<>(TOPIC, record);
                 sync(producer, producerRecord);
-                async(producer, producerRecord);
+                //async(producer, producerRecord);
 
             }
         }

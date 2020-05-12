@@ -4,14 +4,19 @@ start() {
     echo "==== Start ===="
     export EXPOSED_HOSTNAME=$(ipconfig getifaddr en0)
     echo "EXPOSED_HOSTNAME : ${EXPOSED_HOSTNAME}"
-    docker-compose -f docker-compose.yml up -d
+
+
+
+    #docker-compose -f docker-compose.yml up -d
+    docker-compose -f docker-compose-cluster.yml up -d
 }
 
 stop() {
     echo "==== Stop ===="
 
-    #docker-compose -f docker-compose.yml stop && docker-compose -f docker-compose.yml rm -vf
-    docker-compose -f docker-compose.yml stop
+    #docker-compose -f docker-compose-cluster.yml stop && docker-compose -f docker-compose.yml rm -vf
+    #docker-compose -f docker-compose.yml stop
+    docker-compose -f docker-compose-cluster.yml stop
 
     echo "Done."
 }
