@@ -1,4 +1,4 @@
-package kr.geun.forblog.jkc.basic;
+package kr.geun.forblog.pj.basic;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
