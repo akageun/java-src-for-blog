@@ -1,4 +1,4 @@
-package kr.geun.forblog.pj.basic;
+package kr.geun.forblog.pure.basic;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;

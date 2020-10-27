@@ -1,4 +1,4 @@
-package kr.geun.forblog.pj.basic;
+package kr.geun.forblog.pure.basic;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.KafkaProducer;
